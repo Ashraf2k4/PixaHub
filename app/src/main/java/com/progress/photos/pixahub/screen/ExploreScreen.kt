@@ -5,35 +5,24 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Explore
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -42,62 +31,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.progress.photos.pixahub.R
 import com.progress.photos.pixahub.mvvm.SharedViewModel
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExploreScreen(navController : NavController, sharedViewModel : SharedViewModel)
 {
-
-    val bgColor = colorResource(id = R.color.green)
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(bgColor),
-                title = {
-                Text(text = "Explore",
-                    modifier = Modifier.padding(start = 15.dp),
-                    fontSize = 25.sp, color = Color.Black)},
-                navigationIcon = {
-                    Image(imageVector = Icons.Filled.Menu,
-                        contentDescription = null,
-                        modifier = Modifier
-                            .clickable { }
-                            .size(35.dp)
-                            .padding(start = 5.dp))}
-            )
-        },
-        bottomBar = { ExploreBottomBar(navController) }
-    ){
-        paddingValue->
-        Column(modifier = Modifier
-            .background(color = Color.White)
-            .padding(paddingValue)
-            .fillMaxSize())
-        {
-            ExploreOptions(navController = navController, sharedViewModel = sharedViewModel)
-        }
-    }
-}
-
-@Composable
-fun ExploreOptions(navController : NavController, sharedViewModel : SharedViewModel)
-{
-
     var checkDone by remember { mutableStateOf(false) }
     var search by remember { mutableStateOf("") }
     val focusRequester = remember { FocusRequester() }
@@ -123,7 +70,7 @@ fun ExploreOptions(navController : NavController, sharedViewModel : SharedViewMo
         }
     }
 
-    Column(modifier = Modifier.padding(5.dp))
+    Column(modifier = Modifier.background(color = Color.White))
     {
         OutlinedTextField(
             value = search,
@@ -192,49 +139,6 @@ fun ExploreOptions(navController : NavController, sharedViewModel : SharedViewMo
                     sharedViewModel,
                     navController
                 )
-            }
-        }
-
-
-
-
-
-    }
-}
-
-
-@Composable
-fun ExploreBottomBar(navController : NavController)
-{
-
-    val bgColor = colorResource(id = R.color.green)
-
-    BottomAppBar(containerColor = bgColor) {
-        Row(modifier = Modifier
-            .fillMaxSize()
-            .height(45.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceEvenly) {
-            Column(
-                modifier = Modifier.clickable { navController.navigate("home"){
-                    launchSingleTop = true
-                    popUpTo("home") { inclusive = false }
-                }},
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally){
-                Image(imageVector = Icons.Outlined.Home, contentDescription = null, modifier = Modifier.size(45.dp).padding(vertical = 10.dp))
-                Text(text = "HOME", color= Color.Black)
-            }
-            Column(
-                modifier = Modifier.clickable {},
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally) {
-                Image(
-                    imageVector = Icons.Filled.Explore,
-                    contentDescription = null,
-                    modifier = Modifier.size(45.dp).padding(vertical = 10.dp).clip(CircleShape).background(color = Color.White)
-                )
-                Text(text = "EXPLORE", color= Color.Black)
             }
         }
     }

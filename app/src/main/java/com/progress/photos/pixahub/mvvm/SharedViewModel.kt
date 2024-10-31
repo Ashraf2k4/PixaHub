@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.progress.photos.pixahub.apipack.Hit
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class SharedViewModel : ViewModel()
 {
@@ -57,4 +59,19 @@ class SharedViewModel : ViewModel()
         _view = search
     }
 
+    private val _viewTopBarText = MutableStateFlow("Home")  // Initial value can be "Home"
+    val viewTopBarText: StateFlow<String> = _viewTopBarText
+
+    private val _getActions = MutableStateFlow(true)  // Initial value can be true or false
+    val getActions: StateFlow<Boolean> = _getActions
+
+    // Function to update the top bar text
+    fun setTopBarText(newText: String) {
+        _viewTopBarText.value = newText
+    }
+
+    // Function to update the actions visibility
+    fun setActions(show: Boolean) {
+        _getActions.value = show
+    }
 }
